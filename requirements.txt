@@ -4,3 +4,8 @@ supabase>=2.6
 pydantic[email]>=2.7
 pydantic-settings>=2.3
 python-dotenv>=1.0
+
+# Pin websockets below 13 so it satisfies supabase's realtime dependency
+# (realtime requires websockets<13,>=11). Without this, uvicorn[standard]
+# pulls websockets 13.x which conflicts with the supabase client.
+websockets>=11,<13
