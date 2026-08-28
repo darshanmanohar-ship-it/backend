@@ -1,6 +1,7 @@
 """FastAPI application exposing a user-details API backed by Supabase."""
 
 import logging
+from typing import Dict, List
 
 from fastapi import FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
@@ -29,13 +30,13 @@ app.add_middleware(
 
 
 @app.get("/", tags=["health"])
-def root() -> dict:
+def root() -> Dict:
     """Simple liveness/info endpoint."""
     return {"service": "Synnovatify User API", "status": "ok"}
 
 
 @app.get("/health", tags=["health"])
-def health() -> dict:
+def health() -> Dict:
     """Health check used by Render."""
     return {"status": "healthy"}
 
@@ -74,8 +75,8 @@ def create_user(payload: UserCreate) -> UserRead:
     return UserRead(**result.data[0])
 
 
-@app.get("/api/users", response_model=list[UserRead], tags=["users"])
-def list_users(limit: int = 50) -> list[UserRead]:
+@app.get("/api/users", response_model=List[UserRead], tags=["users"])
+def list_users(limit: int = 50) -> List[UserRead]:
     """Return the most recent users (newest first)."""
     limit = max(1, min(limit, 200))
     supabase = get_supabase()

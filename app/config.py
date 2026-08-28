@@ -1,6 +1,7 @@
 """Application configuration loaded from environment variables."""
 
 from functools import lru_cache
+from typing import List
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -32,7 +33,7 @@ class Settings(BaseSettings):
     )
 
     @property
-    def cors_origins_list(self) -> list[str]:
+    def cors_origins_list(self) -> List[str]:
         return [o.strip() for o in self.cors_allow_origins.split(",") if o.strip()]
 
 
